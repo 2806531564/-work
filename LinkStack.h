@@ -1,91 +1,59 @@
 #pragma once
 #include<iostream>
 using namespace std;
-
-typedef struct node
-{
-	char num;
-	node* next;
-	node* last;
-}Node;
-
-class LinkStack
-{
-	Node*pop;
+#include<iostream>
+using namespace std;
+class LinkStack{
 public:
-	LinkStack();
-	bool Push(char num);
-	bool Pop(char&num);
-	char GetTop();
-	void Distory();
-	bool Empty();
-	void display();
+    struct LinkNode
+    {
+        char ch;
+        LinkNode *next;
+        LinkNode():next(nullptr){}
+    };
+    
+    LinkNode *head;
+    int size;
+    
+    LinkStack(){
+        head=new LinkNode;
+        size=0;
+    }
+
+    void push_in(const LinkNode &node){
+        LinkNode *new_node=new LinkNode;
+        new_node->ch=node.ch;
+        new_node->next=head->next;
+        head->next=new_node;
+        size++;
+    }
+
+    const LinkNode* get_top(){
+        return head->next;
+    }
+
+    void pop_out(){
+        if(size==0){
+            cout<<"已经为空！"<<endl;
+            return ;
+        }
+        LinkNode *pop_node=head->next;
+        head->next=head->next->next;
+        delete pop_node;
+        size--;
+    }
+
+    bool is_null(){
+        return head->next==nullptr;
+    }
+    ~LinkStack(){
+        LinkNode *tool=head;
+        while(tool!=nullptr){
+            LinkNode *toolnext=tool->next;
+            delete tool;
+            tool=toolnext;
+        }
+    }
+
+
 };
-
-LinkStack::LinkStack()
-{
-	pop = NULL;
-}
-
-bool LinkStack::Push(char num)
-{
-	Node* temp = new Node;
-	temp->num = num;
-	temp->next = NULL;
-	temp->last = pop;
-	if (pop != NULL)
-	{
-		pop->next = temp;
-	}
-	pop = temp;
-	return true;
-}
-
-bool LinkStack::Pop(char&num)
-{
-	if (pop == NULL)
-		return false;
-	Node* tem = pop;
-	num = tem->num;
-	pop = pop->last;
-	if (pop != NULL)
-		pop->next = NULL;
-	delete tem;
-	return true;
-}
-
-char LinkStack::GetTop()
-{
-	return pop->num;
-}
-
-void LinkStack::Distory()
-{
-	char num;
-	Node* tem = pop;
-	while (pop != NULL)
-	{
-		tem = pop;
-		pop = pop->last;
-		delete tem;
-	}
-}
-
-bool LinkStack::Empty()
-{
-	if (pop == NULL)
-		return true;
-	else
-		return false;
-}
-
-void LinkStack::display()
-{
-	Node* tem = pop;
-	while (tem != NULL)
-	{
-		cout << tem->num << " ";
-		tem = tem->last;
-	}
-	cout << endl;
-}
