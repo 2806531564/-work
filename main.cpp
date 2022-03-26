@@ -1,38 +1,34 @@
-#include"LinkStack.h"
 #include<iostream>
-#include<vector>
+#include"LinkStack.h"
 using namespace std;
-
-int main()
-{
-	int i = 0;
-	int num;
-	LinkStack line;
-	char ch;
-	vector<char> bracket;
-	cout << "请输入要匹配的括号:";
-	while ((ch=cin.get())!='\n')
-		bracket.push_back(ch);
-	for (int i=0;i<bracket.size();i++)
-	{
-		char ch=bracket[i];
-		if (ch == '(')
-		{
-			line.Push(ch);
-		}
-		else if (ch == ')')
-		{
-			++i;
-			if (line.Empty())
-			{
-				cout << "第" << i << "个')'没有被匹配" << endl;
-			}
-			else
-			{
-				line.Pop(ch);
-			}
-		}
-	}
-	cout << endl;
-	return 0;
+#define Max 50
+int main(){
+    //读入一串字符串，若遇到（则入栈，遇到)判断若为空则不合法，否则出栈
+    cout<<"请输入:"<<endl;
+    char ch[Max];
+    cin>>ch;
+    int i=0;
+    LinkStack l;
+    while(ch[i]!='\0'){
+        if(ch[i]=='('){
+            LinkStack::LinkNode node;
+            node.ch=ch[i];
+            l.push_in(node);
+        }else if(ch[i]==')'){
+            if(l.size==0){
+                cout<<"不合法!"<<endl;
+                exit(0);
+            }
+            else{
+                l.pop_out();
+            }
+        }
+        i++;
+    }
+    if(l.is_null()==true){
+        cout<<"合法!"<<endl;
+    }
+    else{
+        cout<<"不合法!"<<endl;
+    }
 }
